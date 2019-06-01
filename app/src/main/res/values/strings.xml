@@ -1,0 +1,60 @@
+<resources>
+
+
+    <string name="app_name">bookswap</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Action Bars -->
+    <string name="search_title">Search</string>
+    <string name="profile_title">Edit Profile</string>
+
+
+    <!-- Navigation Menu Strings -->
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_post_ad">Post Ad</string>
+    <string name="menu_sign_in">Sign In</string>
+    <string name="menu_sign_out">Sign Out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_fragment">Home Page Fragment!</string>
+    <string name="profile_fragment">Profile Page Fragment</string>
+    <string name="post_ad_fragment">Post Ad Page Fragment</string>
+
+    <!-- Sign In Activiity String -->
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >8 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- Sign In Page -->
+    <string name="forgot_password_text">"forgot password ?"</string>
+    <string name="no_account_text">"don't have an account ?"</string>
+    <string name="click_here">"click here"</string>
+
+    <!-- Forgot Password Page -->
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="forgot_password_page">Forgot Password Page Activity</string>
+
+    <!-- Create Account Page -->
+    <string name="title_activity_create_account">CreateAccountActivity</string>
+    <string name="create_account_page">Create Account Page Activity</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="ca_first_name">First Name</string>
+    <string name="ca_last_name">Last Name</string>
+    <string name="ca_e_mail">E-Mail</string>
+    <string name="ca_password">Password</string>
+    <string name="ca_confirm_password">Confirm Password</string>
+
+
+</resources>
