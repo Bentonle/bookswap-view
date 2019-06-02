@@ -45,6 +45,11 @@
     <!-- Forgot Password Page -->
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <string name="forgot_password_page">Forgot Password Page Activity</string>
+    <string name="reset_password">reset password</string>
+    <string name="forgot_pass_page_text">Please enter your email address, you will then receive an email with a link to choose a new password.</string>
+    <string name="forgot_pass_img"></string>
+
+
 
     <!-- Create Account Page -->
     <string name="title_activity_create_account">CreateAccountActivity</string>
@@ -58,6 +63,5 @@
     <string name="action_create_account">Create Account</string>
     <string name="have_account_text">already have an account?</string>
     <string name="ca_sign_in">sign-in</string>
-
 
 </resources>
