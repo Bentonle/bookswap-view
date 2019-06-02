@@ -52,9 +52,12 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="ca_first_name">First Name</string>
     <string name="ca_last_name">Last Name</string>
-    <string name="ca_e_mail">E-Mail</string>
+    <string name="ca_email">Email</string>
     <string name="ca_password">Password</string>
     <string name="ca_confirm_password">Confirm Password</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="have_account_text">already have an account?</string>
+    <string name="ca_sign_in">sign-in</string>
 
 
 </resources>

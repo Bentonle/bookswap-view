@@ -24,8 +24,6 @@ import android.content.Intent;
 import com.bookswap.CreateAccountActivity;
 import com.bookswap.ForgotPasswordActivity;
 import com.bookswap.R;
-import com.bookswap.ui.login.LoginViewModel;
-import com.bookswap.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -138,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
         int id = view.getId();
 
-        if(id == R.id.clickHere1) {
+        if(id == R.id.clcikHere1) {
             intent =  new Intent(this, ForgotPasswordActivity.class);
             startActivity(intent);
         }
