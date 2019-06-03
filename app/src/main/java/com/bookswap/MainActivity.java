@@ -1,10 +1,13 @@
 package com.bookswap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +18,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.util.DisplayMetrics;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
 
         navigationView.setCheckedItem(R.id.nav_home);
+
     }
 
     @Override
@@ -78,6 +85,12 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -97,13 +110,20 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
         }
         else if (id == R.id.nav_sign_in) {
-            Intent signInIntent = new Intent(
-                    MainActivity.this, com.bookswap.ui.login.LoginActivity.class);
+            Intent signInIntent = new Intent(MainActivity.this, com.bookswap.ui.login.LoginActivity.class);
             startActivity(signInIntent);
         }
-        else if (id == R.id.nav_sing_out) {
+        else if (id == R.id.nav_sign_out) {
             //TODO:
-             //sign user out, redirect to home page
+            //load pop-up page to confirm sign out
+            //startActivity(new Intent(MainActivity.this, confirmSignOut.class));
+            LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.fragment_confirm_sign_out, null);
+            PopupWindow popupWindow = new PopupWindow(layout, (int)(width * 0.8), (int)(height * 0.8), true);
+            //popupWindow.setOutsideTouchable(true);
+            //popupWindow.getOverlapAnchor(true);
+            popupWindow.setFocusable(true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER,0,0);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
