@@ -16,6 +16,10 @@
             android:id="@+id/nav_post_ad"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_post_ad" />
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_camera" />
     </group>
 
     <item android:title="">
