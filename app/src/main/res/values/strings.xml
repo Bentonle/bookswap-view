@@ -20,6 +20,8 @@
     <string name="menu_post_ad">Post Ad</string>
     <string name="menu_sign_in">Sign In</string>
     <string name="menu_sign_out">Sign Out</string>
+    <string name="menu_camera">Test Camera</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="home_fragment">Home Page Fragment!</string>

@@ -125,6 +125,12 @@ public class MainActivity extends AppCompatActivity
             popupWindow.setFocusable(true);
             popupWindow.showAtLocation(layout, Gravity.CENTER,0,0);
         }
+        // ********* Camera Test *********
+        else if(id == R.id.nav_camera){
+            Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+            startActivity(cameraIntent);
+        }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
