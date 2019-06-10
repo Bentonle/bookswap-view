@@ -1,4 +1,4 @@
-package com.bookswap;
+package com.bookswap.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.bookswap.R;
 import com.bookswap.ui.login.LoginActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {

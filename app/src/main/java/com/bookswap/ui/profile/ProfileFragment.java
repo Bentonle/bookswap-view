@@ -1,4 +1,4 @@
-package com.bookswap;
+package com.bookswap.ui.profile;
 
 
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bookswap.R;
 
 
 /**

@@ -21,8 +21,6 @@ import android.widget.Toast;
 import android.content.Intent;
 
 
-import com.bookswap.CreateAccountActivity;
-import com.bookswap.ForgotPasswordActivity;
 import com.bookswap.R;
 
 public class LoginActivity extends AppCompatActivity {
