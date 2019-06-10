@@ -83,6 +83,16 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         scannerView.stopCamera();
     }
 
+    /**
+     * This function will handle the results to when the camera permissions are requested.
+     * If user declines permission usage, the application will back out and display a message.
+     * If user accepts permission usage, the camera will be displayed for barcode scanning.
+     *
+     * @param requestCode // Sends the requested function.
+     * @param permissions // A string of permissions to be asked.
+     * @param grantResults // Stores the permission accepted results.
+     * @return Exits function.
+     */
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if(requestCode == REQUEST_CAMERA)
             if (grantResults.length > 0) {
