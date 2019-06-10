@@ -65,9 +65,20 @@
     <string name="ca_sign_in">sign-in</string>
 
     <!-- Post Ad Page -->
+    <string name="post_ad_button">Post Ad</string>
     <string name="create_camera_button"> </string>
+    <string name="post_ad_text">Fill form automatically with ISBN scan</string>
+     <!-- book form strings -->
+    <string name="book_title">Title</string>
+    <string name="book_edition">Edition</string>
+    <string name="book_release">Release Year</string>
+    <string name="book_price">Price</string>
+    <string name="book_subjectOrGenre">Subject/Genre</string>
+    <string name="book_description">Description</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="temp"></string>
 
 </resources>

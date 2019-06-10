@@ -22,6 +22,12 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.util.DisplayMetrics;
 
+import com.bookswap.api.MultipleResource;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -124,11 +130,6 @@ public class MainActivity extends AppCompatActivity
             //popupWindow.getOverlapAnchor(true);
             popupWindow.setFocusable(true);
             popupWindow.showAtLocation(layout, Gravity.CENTER,0,0);
-        }
-        // ********* Camera Test *********
-        else if(id == R.id.nav_camera){
-            Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
-            startActivity(cameraIntent);
         }
 
 

@@ -7,17 +7,186 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <!--
+        <layer-list
+            android:layout_width="243dp"
+            android:layout_height="144dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/book_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+
+            <item android:drawable="@mipmap/ic_launcher_round"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <item android:drawable="@mipmap/ic_launcher_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+    </layer-list>
+    -->
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="149dp"
+        android:layout_height="121dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/temp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintBottom_toTopOf="@+id/book_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"></ImageView>
     <ImageButton
-        android:id="@+id/create_camera_button"
+        android:id="@+id/isbn_camera_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/create_camera_button"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_ad_text" />
+
+    <TextView
+        android:id="@+id/post_ad_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/post_ad_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_ad_button" />
+
+    <Button
+        android:id="@+id/post_ad_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/post_ad_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_description" />
+
+    <EditText
+        android:id="@+id/book_description"
+        android:layout_width="381dp"
+        android:layout_height="124dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/book_description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_price"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/book_title"
+        android:layout_width="267dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="324dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/book_title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/book_edition"
+        android:layout_width="167dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/book_edition"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/book_release"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_title"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/book_release"
+        android:layout_width="167dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="@string/book_release"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_title"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/book_price"
+        android:layout_width="167dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/book_price"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/book_sujectOrGenre"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_edition"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/book_sujectOrGenre"
+        android:layout_width="167dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:ems="10"
+        android:hint="@string/book_subjectOrGenre"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_release"
+        android:autofillHints="" tools:targetApi="o" />
+
+    <ImageButton
+        android:id="@+id/add_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/temp"
+        app:layout_constraintBottom_toTopOf="@+id/book_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.713"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.556"
+        app:srcCompat="@android:drawable/ic_input_add" />
 </android.support.constraint.ConstraintLayout>
