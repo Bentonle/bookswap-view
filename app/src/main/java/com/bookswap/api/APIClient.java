@@ -23,7 +23,7 @@ class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://reqres.in")
+                .baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

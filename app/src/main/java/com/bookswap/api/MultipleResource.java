@@ -5,12 +5,23 @@ package com.bookswap.api;
 
         import com.google.gson.annotations.SerializedName;
 
-        import java.util.ArrayList;
-        import java.util.List;
 
 public class MultipleResource {
 
-    @SerializedName("page")
+    //Resources for Users
+    @SerializedName("username")
+    public String username;
+    @SerializedName("password")
+    public String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+/*@SerializedName("page")
     public Integer page;
     @SerializedName("per_page")
     public Integer perPage;
@@ -32,6 +43,6 @@ public class MultipleResource {
         @SerializedName("pantone_value")
         public String pantoneValue;
 
-    }
+    }*/
 }
 

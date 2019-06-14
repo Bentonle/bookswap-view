@@ -8,6 +8,8 @@ package com.bookswap.api;
 import com.bookswap.api.MultipleResource;
 
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -16,10 +18,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-interface APIInterface {
+public interface APIInterface {
 
-    @GET("/api/unknown")
-    Call<MultipleResource> doGetListResources();
+    //Class<List<MultipleResource>>
+    //@GET("/api/unknown")
+    //Call<> doGetListResources();
 
     //@POST("/api/users")
     //Call<User> createUser(@Body User user);
