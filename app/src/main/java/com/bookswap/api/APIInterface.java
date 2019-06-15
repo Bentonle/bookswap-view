@@ -20,6 +20,9 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
+    //@FormUrlEncoded
+    //@POST("")
+
     //Class<List<MultipleResource>>
     //@GET("/api/unknown")
     //Call<> doGetListResources();

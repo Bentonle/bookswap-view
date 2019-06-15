@@ -9,18 +9,18 @@ package com.bookswap.api;
 public class MultipleResource {
 
     //Resources for Users
-    @SerializedName("username")
-    public String username;
-    @SerializedName("password")
-    public String password;
+    //@SerializedName("username")
+   // public String username;
+    //@SerializedName("password")
+    //public String password;
 
-    public String getUsername() {
-        return username;
-    }
+    //public String getUsername() {
+        //return username;
+   // }
 
-    public String getPassword() {
-        return password;
-    }
+   // public String getPassword() {
+       // return password;
+   // }
 /*@SerializedName("page")
     public Integer page;
     @SerializedName("per_page")

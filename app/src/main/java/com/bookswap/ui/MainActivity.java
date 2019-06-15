@@ -1,4 +1,4 @@
-package com.bookswap;
+package com.bookswap.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.widget.PopupWindow;
 import android.util.DisplayMetrics;
 
+import com.bookswap.R;
 import com.bookswap.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
         }
         else if (id == R.id.nav_sign_in) {
-            Intent signInIntent = new Intent(MainActivity.this, com.bookswap.ui.login.LoginActivity.class);
+            Intent signInIntent = new Intent(MainActivity.this, com.bookswap.ui.user.LoginActivity.class);
             startActivity(signInIntent);
         }
         else if (id == R.id.nav_sign_out) {

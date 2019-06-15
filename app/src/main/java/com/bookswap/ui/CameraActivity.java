@@ -1,4 +1,4 @@
-package com.bookswap;
+package com.bookswap.ui;
 
 
 import android.content.DialogInterface;

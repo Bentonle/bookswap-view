@@ -1,4 +1,4 @@
-package com.bookswap.ui.login;
+package com.bookswap.ui.user;
 
 import android.content.Context;
 import android.net.Uri;

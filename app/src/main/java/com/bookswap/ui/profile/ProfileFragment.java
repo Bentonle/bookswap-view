@@ -1,6 +1,7 @@
 package com.bookswap.ui.profile;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bookswap.R;
 
@@ -30,7 +32,18 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        /*final Button editProfileButton = view.findViewById(R.id.action_edit);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editProfileIntent = new Intent(getActivity(), EditProfileFragment.class);
+                startActivity(editProfileIntent);
+            }
+        });*/
+
+        return view;
     }
 
 

@@ -1,20 +1,20 @@
-package com.bookswap;
+package com.bookswap.ui;
 
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.AnimatedImageDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.bookswap.R;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,6 +66,15 @@ public class PostAdFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //TODO: FIX ACTION BAR SO PROFILE EDIT ICON WILL REPLACE SEARCH
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_blank, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
 
     //handle image capture for product
     public void dispatchTakePictureIntent() {

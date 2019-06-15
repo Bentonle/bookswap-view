@@ -30,7 +30,7 @@
 
     <!-- Sign In Activiity String -->
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -50,13 +50,14 @@
     <string name="reset_password">reset password</string>
     <string name="forgot_pass_page_text">Please enter your email address, you will then receive an email with a link to choose a new password.</string>
     <string name="forgot_pass_img"> </string>
+    <string name="prompt_email">Email</string>
+
 
     <!-- Create Account Page -->
     <string name="title_activity_create_account">Create Account</string>
     <string name="create_account_page">Create Account </string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="ca_first_name">First Name</string>
-    <string name="ca_last_name">Last Name</string>
+    <string name="ca_username">Username</string>
     <string name="ca_email">Email</string>
     <string name="ca_password">Password</string>
     <string name="ca_confirm_password">Confirm Password</string>
@@ -68,13 +69,23 @@
     <string name="post_ad_button">Post Ad</string>
     <string name="create_camera_button"> </string>
     <string name="post_ad_text">Fill form automatically with ISBN scan</string>
-     <!-- book form strings -->
+    <!-- book form strings -->
     <string name="book_title">Title</string>
     <string name="book_edition">Edition</string>
     <string name="book_release">Release Year</string>
     <string name="book_price">Price</string>
     <string name="book_subjectOrGenre">Subject/Genre</string>
     <string name="book_description">Description</string>
+
+    <!-- Edit Profile Page -->
+    <string name="account_info_text">Account Information</string>
+    <string name="username">Username</string>
+    <string name="change_password">Change Password</string>
+    <string name="forgot_password">Forgot Password</string>
+
+    <string name="personal_information">Personal Information</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
