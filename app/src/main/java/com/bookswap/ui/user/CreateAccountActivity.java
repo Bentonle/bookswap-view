@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 
 import com.bookswap.R;
 import com.bookswap.api.config.APIClient;
+import com.bookswap.api.service.UserService;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
 
+import java.io.IOError;
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
@@ -45,44 +48,49 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //preform signup
-                userSignUp();
+                try {
+                    userSignUp();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void userSignUp(){
+    private void userSignUp() throws Exception{
+
         String username = editTextUsername.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String confirm = editTextConfirm.getText().toString().trim();
 
         //validate
-        if(username.isEmpty()) {
+        if (username.isEmpty()) {
             editTextUsername.setError("Username is required");
             editTextUsername.requestFocus();
             return;
         }
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
             return;
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Enter a valid email");
             editTextEmail.requestFocus();
             return;
         }
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
             return;
         }
-        if(password.length() < 6){
+        if (password.length() < 6) {
             editTextPassword.setError("Minimum 6 characters");
             editTextPassword.requestFocus();
             return;
         }
-        if(!password.equals(confirm)){
+        if (!password.equals(confirm)) {
             editTextConfirm.setError("Passwords must match");
             editTextConfirm.requestFocus();
             return;
@@ -92,34 +100,46 @@ public class CreateAccountActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
 
-        //user registration using api call
-        //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
-        Call<StdResponse> call = APIClient.getInstance().getUserService().signup(user);
-        call.enqueue(new Callback<StdResponse>() {
-            @Override
-            public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
-
-                if(response.isSuccessful()){
-                    String retResponse = response.body().getMessage();
-                    Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
-                    //String retResponse = response.body().getMessage();
-                    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
+            //user registration using api call
+            //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
+        try {
+            APIClient api = new APIClient();
+            Call<StdResponse> call = api.getUserService().signup(user);
+            call.enqueue(new Callback<StdResponse>() {
+                @Override
+                public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
+                    try{
+                        response.isSuccessful();
+                        try {
+                            response.body().getError();
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
+                    } catch (Throwable e){
+                        e.printStackTrace();
+                    }
+                    //if (response.isSuccessful()){
+                    //    String retResponse = response.body().getMessage();
+                    //    Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
+                    //    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
+                    //} else {
+                        //String retResponse = response.body().getMessage();
+                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+                    //}
                 }
-                else {
-                    //String retResponse = response.body().getMessage();
-                    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                    Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+
+                @Override
+                public void onFailure(Call<StdResponse> call, Throwable t) {
+                    Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
 
                 }
-            }
 
-            @Override
-            public void onFailure(Call<StdResponse> call, Throwable t) {
-                Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
-
-            }
-        });
+            });
+        } catch(Throwable e){
+            e.printStackTrace();
+        }
     }
     //handle clickable text
     public void textClickables(View view) {
