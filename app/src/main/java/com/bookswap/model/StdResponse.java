@@ -1,9 +1,15 @@
 package com.bookswap.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class StdResponse {
+   @SerializedName("status")
     private String status;
+    @SerializedName("error")
     private String error;
+    @SerializedName("message")
     private String message;
+    @SerializedName("path")
     private String path;
 
     public StdResponse() {}

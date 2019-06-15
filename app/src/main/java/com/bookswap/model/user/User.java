@@ -9,19 +9,28 @@ import java.util.List;
 import com.bookswap.model.Address;
 import com.bookswap.model.Campus;
 import com.bookswap.model.Role;
+import com.google.gson.annotations.SerializedName;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
+    @SerializedName("firstName")
     private String firstName;
+    @SerializedName("lastName")
     private String lastName;
 
+    @SerializedName("email")
     private String email;
+    @SerializedName("username")
     private String username;
+    @SerializedName("password")
     private String password;
 
+    @SerializedName("roles")
     private Collection<Role> roles;
+    @SerializedName("campus")
     private Campus campus;
+    @SerializedName("address")
     private List<Address> address = new ArrayList<>();
 
     public User() {}

@@ -17,18 +17,18 @@ import javax.net.ssl.X509TrustManager;
 public class APIClient {
 
     private static final String BASE_URL = "http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/";
+    //private static final String BASE_URL = "http://192.168.117.1/bookswap-0.0.2/";
     private  static APIClient mInstance;
     private final Retrofit retrofit;
 
     public APIClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                //.baseUrl("http://localhost:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    private static OkHttpClient getUnsafeOkHttpClient() {
+    /*private static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
             final TrustManager[] trustAllCerts = new TrustManager[] {
@@ -68,7 +68,7 @@ public class APIClient {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public static synchronized APIClient getInstance(){
         if(mInstance == null){

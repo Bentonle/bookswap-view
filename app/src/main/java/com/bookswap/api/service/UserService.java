@@ -1,4 +1,6 @@
 package com.bookswap.api.service;
+import android.security.NetworkSecurityPolicy;
+
 import java.util.List;
 import java.util.Map;
 
@@ -46,13 +48,14 @@ public interface UserService {
      * that will be serialize to a object of type StdResponse.
      */
 
-    //@FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("user/signup")
-    /*Call<ResponseBody> signup(
+    Call<StdResponse> signup(
             @Field("email") String email,
             @Field("username") String username,
-            @Field("password") String password,
+            @Field("password") String password
     );*/
+    @POST("user/signup")
     Call<StdResponse> signup(@Body User body);
 
     /*

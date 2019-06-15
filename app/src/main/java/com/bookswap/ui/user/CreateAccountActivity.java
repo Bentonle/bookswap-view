@@ -2,6 +2,7 @@ package com.bookswap.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
@@ -92,17 +93,21 @@ public class CreateAccountActivity extends AppCompatActivity {
         user.setPassword(password);
 
         //user registration using api call
+        //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
         Call<StdResponse> call = APIClient.getInstance().getUserService().signup(user);
         call.enqueue(new Callback<StdResponse>() {
             @Override
             public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
 
                 if(response.isSuccessful()){
-                    Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
                     String retResponse = response.body().getMessage();
-                    Toast.makeText(CreateAccountActivity.this, "create", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
+                    //String retResponse = response.body().getMessage();
+                    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
                 }
                 else {
+                    //String retResponse = response.body().getMessage();
+                    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
                     Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
 
                 }
@@ -111,6 +116,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<StdResponse> call, Throwable t) {
                 Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
+
             }
         });
     }
