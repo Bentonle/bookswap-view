@@ -173,7 +173,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             URL myurl = new URL(url);
             con = (HttpURLConnection) myurl.openConnection();
             con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "42512_8f862da499948578cb7c8c7ce3e0c12a");
+            con.setRequestProperty("Authorization", "KEY");
             con.setRequestMethod("GET");
 
             StringBuilder content;
