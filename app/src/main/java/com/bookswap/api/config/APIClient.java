@@ -17,8 +17,10 @@ import javax.net.ssl.X509TrustManager;
 public class APIClient {
 
     private final Retrofit retrofit;
+    private  static APIClient mInstance;
 
     public APIClient() {
+
         this.retrofit = new Retrofit.Builder()
                 //.baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
                 //.baseUrl("http://192.168.117.1:8080/bookswap-0.0.1/")
@@ -27,6 +29,12 @@ public class APIClient {
                 .build();
     }
 
+    public synchronized  APIClient getInstance() {
+        if(mInstance == null){
+            mInstance = new APIClient();
+        }
+        return mInstance;
+    }
     public UserService getUserService() {
         return this.retrofit.create(UserService.class);
     }

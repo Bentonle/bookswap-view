@@ -2,6 +2,7 @@ package com.bookswap.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +39,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         editTextUsername = findViewById(R.id.create_username);
         editTextEmail = findViewById(R.id.create_email);
         editTextPassword = findViewById(R.id.create_password);
@@ -65,7 +73,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         String confirm = editTextConfirm.getText().toString().trim();
 
         //validate
-        if (username.isEmpty()) {
+        /*if (username.isEmpty()) {
             editTextUsername.setError("Username is required");
             editTextUsername.requestFocus();
             return;
@@ -94,7 +102,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             editTextConfirm.setError("Passwords must match");
             editTextConfirm.requestFocus();
             return;
-        }
+        }*/
         User user = new User();
         user.setEmail(email);
         user.setUsername(username);
@@ -103,11 +111,17 @@ public class CreateAccountActivity extends AppCompatActivity {
             //user registration using api call
             //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
         try {
-            APIClient api = new APIClient();
+            APIClient api = new APIClient().getInstance();
             Call<StdResponse> call = api.getUserService().signup(user);
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
+                   /* try{
+                        response.isSuccessful();
+                    } catch (Throwable e) {
+                        Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d("RESPONSE", e.getMessage());
+                    }*/
                     if (response.isSuccessful()){
                         String retResponse = response.body().getMessage();
                         Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
