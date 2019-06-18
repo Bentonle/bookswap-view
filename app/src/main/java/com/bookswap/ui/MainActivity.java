@@ -1,11 +1,9 @@
-package com.bookswap;
+package com.bookswap.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.security.NetworkSecurityPolicy;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +16,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.util.DisplayMetrics;
+
+import com.bookswap.R;
+import com.bookswap.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
         }
         else if (id == R.id.nav_sign_in) {
-            Intent signInIntent = new Intent(MainActivity.this, com.bookswap.ui.login.LoginActivity.class);
+            Intent signInIntent = new Intent(MainActivity.this, com.bookswap.ui.user.LoginActivity.class);
             startActivity(signInIntent);
         }
         else if (id == R.id.nav_sign_out) {
@@ -124,11 +124,6 @@ public class MainActivity extends AppCompatActivity
             //popupWindow.getOverlapAnchor(true);
             popupWindow.setFocusable(true);
             popupWindow.showAtLocation(layout, Gravity.CENTER,0,0);
-        }
-        // ********* Camera Test *********
-        else if(id == R.id.nav_camera){
-            Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
-            startActivity(cameraIntent);
         }
 
 
