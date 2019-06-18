@@ -108,25 +108,15 @@ public class CreateAccountActivity extends AppCompatActivity {
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-                    try{
-                        response.isSuccessful();
-                        try {
-                            response.body().getError();
-                        } catch (Throwable e) {
-                            e.printStackTrace();
-                        }
-                    } catch (Throwable e){
-                        e.printStackTrace();
-                    }
-                    //if (response.isSuccessful()){
-                    //    String retResponse = response.body().getMessage();
-                    //    Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
-                    //    //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                    //} else {
+                    if (response.isSuccessful()){
+                        String retResponse = response.body().getMessage();
+                        Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
+                    } else {
                         //String retResponse = response.body().getMessage();
                         //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                    //    Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
-                    //}
+                        Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override

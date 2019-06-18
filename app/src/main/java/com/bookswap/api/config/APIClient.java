@@ -20,8 +20,9 @@ public class APIClient {
 
     public APIClient() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
-                //.baseUrl("http://localhost:8080/")
+                //.baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
+                //.baseUrl("http://192.168.117.1:8080/bookswap-0.0.1/")
+                .baseUrl("http://10.0.2.2:8080/bookswap=0.0.1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
