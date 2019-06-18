@@ -1,4 +1,4 @@
-package com.bookswap;
+package com.bookswap.ui;
 
 
 import android.content.DialogInterface;
@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,12 +38,17 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
     private static HttpURLConnection con;
+    private String isbn_scanned;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         int currentApiVersion = Build.VERSION.SDK_INT;
         if(currentApiVersion >=  Build.VERSION_CODES.M)
@@ -52,7 +58,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             else
                 requestPermission();
         }
-
     }
 
     private boolean checkPermission() { return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED); }
@@ -150,18 +155,19 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         });
 
         try {
-            JavaRequest(result.getText());
+            JavaRequest();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        isbn_scanned = result.getText();
         builder.setMessage(result.getText());
         AlertDialog alert1 = builder.create();
         alert1.show();
     }
-    public void JavaRequest(String isbn) throws MalformedURLException, ProtocolException, IOException{
+    public void JavaRequest() throws MalformedURLException, ProtocolException, IOException{
 
-        String url = "https://api2.isbndb.com/book/" + isbn;
+        String url = "https://api2.isbndb.com/book/" + isbn_scanned;
 
         try{
             URL myurl = new URL(url);
@@ -180,7 +186,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                     content.append(System.lineSeparator());
                 }
             }
-            System.out.println(content.toString());
+            // System.out.println(content.toString());
+
+            Toast.makeText(CameraActivity.this, content.toString(), Toast.LENGTH_LONG).show();
         } finally {
             con.disconnect();
         }
