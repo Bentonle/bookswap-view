@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -17,7 +18,16 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import okhttp3.OkHttpClient;
 
 import static android.Manifest.permission.CAMERA;
 
@@ -27,36 +37,31 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private ZXingScannerView scannerView;
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
+    private static HttpURLConnection con;
+    private String isbn_scanned;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
-        int currentApiVersion = Build.VERSION.SDK_INT;
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        int currentApiVersion = Build.VERSION.SDK_INT;
         if(currentApiVersion >=  Build.VERSION_CODES.M)
         {
             if(checkPermission())
-            {
                 Toast.makeText(getApplicationContext(), "Permission already granted!", Toast.LENGTH_LONG).show();
-            }
             else
-            {
                 requestPermission();
-            }
         }
     }
 
-    private boolean checkPermission()
-    {
-        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
-    }
-
-    private void requestPermission()
-    {
-        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
-    }
+    private boolean checkPermission() { return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED); }
+    private void requestPermission() { ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA); }
 
     @Override
     public void onResume() {
@@ -148,8 +153,44 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                 startActivity(browserIntent);
             }
         });
+
+        try {
+            JavaRequest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        isbn_scanned = result.getText();
         builder.setMessage(result.getText());
         AlertDialog alert1 = builder.create();
         alert1.show();
+    }
+    public void JavaRequest() throws MalformedURLException, ProtocolException, IOException{
+
+        String url = "https://api2.isbndb.com/book/" + isbn_scanned;
+
+        try{
+            URL myurl = new URL(url);
+            con = (HttpURLConnection) myurl.openConnection();
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "KEY");
+            con.setRequestMethod("GET");
+
+            StringBuilder content;
+            try (BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()))){
+                String line;
+                content = new StringBuilder();
+
+                while((line = in.readLine()) != null){
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+            // System.out.println(content.toString());
+
+            Toast.makeText(CameraActivity.this, content.toString(), Toast.LENGTH_LONG).show();
+        } finally {
+            con.disconnect();
+        }
     }
 }
