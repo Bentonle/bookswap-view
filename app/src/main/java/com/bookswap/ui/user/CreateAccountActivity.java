@@ -3,32 +3,34 @@ package com.bookswap.ui.user;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-
 
 import com.bookswap.R;
 import com.bookswap.api.config.APIClient;
-import com.bookswap.api.service.UserService;
+import com.bookswap.model.Address;
+import com.bookswap.model.Campus;
+import com.bookswap.model.Role;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
 
-import java.io.IOError;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateAccountActivity extends AppCompatActivity {
+    private static HttpURLConnection con;
+
 
     private EditText editTextUsername, editTextEmail, editTextPassword, editTextConfirm;
 
@@ -108,28 +110,76 @@ public class CreateAccountActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
 
+
+        String url = "http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/user/signup";
+
+       /* try{
+            URL myurl = new URL(url);
+
+            //set request method header
+            con.setRequestMethod("POST");
+
+            con = (HttpURLConnection) myurl.openConnection();
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "Basic");
+
+            StringBuilder content;
+            try (BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()))){
+                String line;
+                content = new StringBuilder();
+
+                while((line = in.readLine()) != null){
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+            // System.out.println(content.toString());
+
+            Toast.makeText(CreateAccountActivity.this, content.toString(), Toast.LENGTH_LONG).show();
+        } finally */
+
             //user registration using api call
             //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
+
+        Campus campus = new Campus();
+    	campus.setName("");
+        List<Role> roles = new ArrayList<>();
+    	roles.add(new Role(""));
+    	roles.add(new Role(""));
+
+    	List<Address> address = new ArrayList<>();
+    	address.add(new Address("", "", "", "", "",
+    					"",""));
+
+    	User user2 = new User("ryan", "marzec", "marzecreyan@gmail.com", "appMarss1", "ryan123",
+    			roles,campus,address);
+
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user);
+            Call<StdResponse> call = api.getUserService().signup(user2);
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-                   /* try{
-                        response.isSuccessful();
-                    } catch (Throwable e) {
-                        Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("RESPONSE", e.getMessage());
-                    }*/
-                    if (response.isSuccessful()){
-                        String retResponse = response.body().getMessage();
-                        Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
-                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
+                   // onNetworkRequestFinished();
+                    /*if (response.isSuccessful()){
+                        int retStatus = response.code();
+                        //Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
                     } else {
-                        //String retResponse = response.body().getMessage();
-                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                        Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+                        int retStatus = response.code();
+                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+                    }*/
+                    if(!response.isSuccessful()){
+                        try{
+                            int retStatus = response.code();
+                            Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                            String responseX ="";
+                            responseX = response.errorBody().string();
+                            Log.d("TEST1",responseX);
+                        }catch (IOException e){
+                            Log.e("Booking Presenter", "Exception");
+                        }
                     }
                 }
 

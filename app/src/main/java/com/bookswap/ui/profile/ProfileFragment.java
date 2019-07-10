@@ -22,6 +22,8 @@ import com.bookswap.R;
  */
 public class ProfileFragment extends Fragment {
 
+    View view;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -32,7 +34,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         /*final Button editProfileButton = view.findViewById(R.id.action_edit);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +55,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_profile, menu);
         super.onCreateOptionsMenu(menu,inflater);
+
+
     }
 
 }
