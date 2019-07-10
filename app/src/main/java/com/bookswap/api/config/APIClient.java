@@ -4,15 +4,6 @@ import com.bookswap.api.service.UserService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import okhttp3.OkHttpClient;
-
-import java.security.cert.CertificateException;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 public class APIClient {
 
@@ -22,9 +13,9 @@ public class APIClient {
     public APIClient() {
 
         this.retrofit = new Retrofit.Builder()
-                //.baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
+                .baseUrl("http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/")
                 //.baseUrl("http://192.168.117.1:8080/bookswap-0.0.1/")
-                .baseUrl("http://10.0.2.2:8080/bookswap=0.0.1/")
+                //.baseUrl("http://10.0.2.2:8080/bookswap=0.0.1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
