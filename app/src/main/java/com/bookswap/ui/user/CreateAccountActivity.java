@@ -141,35 +141,26 @@ public class CreateAccountActivity extends AppCompatActivity {
             //user registration using api call
             //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
 
-        Campus campus = new Campus();
-    	campus.setName("");
-        List<Role> roles = new ArrayList<>();
-    	roles.add(new Role(""));
-    	roles.add(new Role(""));
+        //Campus campus = new Campus();
+    	//campus.setName("");
+        //List<Role> roles = new ArrayList<>();
+    	//roles.add(new Role(""));
+    	//roles.add(new Role(""));
 
-    	List<Address> address = new ArrayList<>();
-    	address.add(new Address("", "", "", "", "",
-    					"",""));
+    	//List<Address> address = new ArrayList<>();
+    	//address.add(new Address("asd", "asd", "asd", "toronto", "on",
+    					//"canada","s1d4r5"));
 
-    	User user2 = new User("ryan", "marzec", "marzecreyan@gmail.com", "appMarss1", "ryan123",
-    			roles,campus,address);
+    	//User user2 = new User("ryan", "marzec", "marzecreyan@gmail.com", "appmarss1", "ryan123",
+    			//roles,campus,address);
 
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user2);
+            Call<StdResponse> call = api.getUserService().signup(user);
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-                   // onNetworkRequestFinished();
-                    /*if (response.isSuccessful()){
-                        int retStatus = response.code();
-                        //Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
-                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
-                    } else {
-                        int retStatus = response.code();
-                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
-                        //Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
-                    }*/
+
                     if(!response.isSuccessful()){
                         try{
                             int retStatus = response.code();
