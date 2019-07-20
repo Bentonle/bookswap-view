@@ -3,6 +3,7 @@ import com.bookswap.model.Ad;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
+import com.bookswap.ui.user.LoginActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +34,14 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
-    @FormUrlEncoded
     @POST("user/login")
     Call<StdResponse> login(@Body LoginRequest body);
-
+    @GET("user/login")
+    Call<User> loginData(@Body LoginRequest body);
     /**
      *
      * this methods send a new user to be register
-     *
+     * @Header() Map<String,String> headers @Header() Map<String,String> headers
      * @param body new user object to be persisted
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
@@ -53,7 +54,7 @@ public interface UserService {
             @Field("username") String username,
             @Field("password") String password
     );*/
-    @Headers("Accept: application/json")
+    //@Headers("Accept: application/json")
     @POST("user/signup")
     Call<StdResponse> signup(@Body HashMap<String, Object> body);
 
