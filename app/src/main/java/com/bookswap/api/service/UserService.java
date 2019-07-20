@@ -4,6 +4,7 @@ import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public interface UserService {
     );*/
     @Headers("Accept: application/json")
     @POST("user/signup")
-    Call<StdResponse> signup(@Body User body);
+    Call<StdResponse> signup(@Body HashMap<String, Object> body);
 
     /*
      * READ
