@@ -31,13 +31,13 @@ public class User {
     @SerializedName("campus")
     private Campus campus;
     @SerializedName("address")
-    private List<Address> address = new ArrayList<>();
+    private Address address;
 
     public User() {}
 
     public User(String firstName, String lastName, String email, String username, String password,
                 Collection<Role> roles, Campus campus, List<Address> address) {
-        super();
+        //super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -45,7 +45,7 @@ public class User {
         this.password = password;
         this.roles = roles;
         this.campus = campus;
-        this.address = address;
+        this.address = (Address) address;
     }
 
     public String getFirstName() {
@@ -104,13 +104,20 @@ public class User {
         this.campus = campus;
     }
 
-    public List<Address> getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(List<Address> address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
+    //public List<Address> getAddress() {
+    //    return address;
+    //}
+
+    //public void setAddress(List<Address> address) {
+    //    this.address = address;
+    //}
 
 
 
