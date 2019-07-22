@@ -1,18 +1,21 @@
 package com.bookswap.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Address {
+    @SerializedName("addressLine1")
     private String addressLine1;
-
+    @SerializedName("addressLine2")
     private String addressLine2;
-
+    @SerializedName("addressLine3")
     private String addressLine3;
-
+    @SerializedName("city")
     private String city;
-
+    @SerializedName("province")
     private String province;
-
+    @SerializedName("country")
     private String country;
-
+    @SerializedName("postalCode")
     private String postalCode;
 
     public Address() {}

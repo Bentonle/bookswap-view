@@ -116,15 +116,15 @@ public class CreateAccountActivity extends AppCompatActivity {
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-                        try{
-                            int retStatus = response.code();
-                            Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
-                            String responseX ="";
-                            responseX = response.errorBody().string();
-                            Log.d("TEST1",responseX);
-                        }catch (Exception e){
-                            Log.e("Booking Presenter", "Exception");
-                        }
+                    try{
+                        int retStatus = response.code();
+                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                        String responseX ="";
+                        responseX = response.errorBody().string();
+                        Log.d("TEST1",responseX);
+                    }catch (Exception e){
+                        Log.e("Booking Presenter", "Exception");
+                    }
                 }
 
                 @Override

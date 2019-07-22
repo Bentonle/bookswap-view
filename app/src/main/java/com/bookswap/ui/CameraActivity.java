@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bookswap.R;
 import com.google.zxing.Result;
 
 import java.io.BufferedReader;
@@ -143,7 +144,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                scannerView.resumeCameraPreview(CameraActivity.this);
+                //scannerView.resumeCameraPreview(CameraActivity.this);
+                scannerView.stopCamera();
             }
         });
         builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
@@ -154,13 +156,15 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             }
         });
 
+        isbn_scanned = result.getText();
+
         try {
             JavaRequest();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        isbn_scanned = result.getText();
+
         builder.setMessage(result.getText());
         AlertDialog alert1 = builder.create();
         alert1.show();
@@ -169,28 +173,64 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
         String url = "https://api2.isbndb.com/book/" + isbn_scanned;
 
-        try{
+        try {
             URL myurl = new URL(url);
             con = (HttpURLConnection) myurl.openConnection();
             con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "KEY");
+            con.setRequestProperty("Authorization", "xxxx");
             con.setRequestMethod("GET");
 
+            con.connect();
+
             StringBuilder content;
-            try (BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()))){
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+
                 String line;
                 content = new StringBuilder();
 
-                while((line = in.readLine()) != null){
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-            }
-            // System.out.println(content.toString());
+                Bundle results = new Bundle();
+                while ((line = in.readLine()) != null) {
 
-            Toast.makeText(CameraActivity.this, content.toString(), Toast.LENGTH_LONG).show();
+                    if (line.contains("\"")) {
+                        int splitString, firstIndex = line.indexOf("\"");
+                        String cleanedString = "", stringTitle = "", stringValue = "";
+
+                        // Removes whitespaces at the start of the string.
+                        cleanedString = line.substring(firstIndex);
+
+                        // Obtains the index that splits 'title' from 'value'.
+                        splitString = cleanedString.indexOf(":");
+
+                        // Splits the title off.
+                        stringTitle = cleanedString.substring(0, splitString);
+                        // Splits the value off.
+                        stringValue = cleanedString.substring(splitString + 1, cleanedString.length() - 1);
+
+
+                        content.append(stringValue + "\n");
+                        if(stringTitle == "publisher") {
+                            results.putString("publisher", stringValue);
+                            toastMessage("This is:" + stringValue);
+                        }
+                        else if(stringTitle == "\"title\"")
+                            results.putString("title", stringValue);
+
+
+                    }
+                }
+
+
+                toastMessage(content.toString());
+                //Intent intentResults = new Intent();
+                //intentResults.putExtras(results);
+                //setResult(RESULT_OK, intentResults);
+                //finish();
+            }
         } finally {
             con.disconnect();
         }
+
     }
+
+    private void toastMessage(String message){ Toast.makeText(this, message, Toast.LENGTH_LONG).show(); }
 }

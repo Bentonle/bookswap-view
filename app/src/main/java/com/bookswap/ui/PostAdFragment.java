@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bookswap.R;
 
@@ -24,12 +28,16 @@ import static android.app.Activity.RESULT_OK;
  */
 public class PostAdFragment extends Fragment {
 
+    public static final int ISBN_DATA = 100;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView imageView;
+
+    private EditText editTitle, editEdition, editRelease, editPrice, editGenre;
 
     public PostAdFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +45,12 @@ public class PostAdFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_ad, container, false);
+
+        editTitle = (EditText) view.findViewById(R.id.book_title);
+        editEdition = (EditText) view.findViewById(R.id.book_edition);
+        editRelease = (EditText) view.findViewById(R.id.book_release);
+        editPrice = (EditText) view.findViewById(R.id.book_price);
+        editGenre = (EditText) view.findViewById(R.id.book_sujectOrGenre);
 
         //button control for adding images of product
         final ImageButton addImageButton = view.findViewById(R.id.add_image_button);
@@ -53,7 +67,7 @@ public class PostAdFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(getActivity(), CameraActivity.class);
-                startActivity(cameraIntent);
+                startActivityForResult(cameraIntent, ISBN_DATA);
             }
         });
 
@@ -84,12 +98,33 @@ public class PostAdFragment extends Fragment {
         }
     }
 
-    //retrieve image capture from camera
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //editEdition.setText(Integer.toString(ISBN_DATA));
+        //editPrice.setText(Integer.toString(requestCode));
+
+        /*if(requestCode == ISBN_DATA)
+            editPrice.setText("WORKS");
+        */
+        switch (requestCode) {
+            case ISBN_DATA : {
+                editTitle.setText("HELLO");
+                if (resultCode == RESULT_OK) {
+                    Bundle isbnExtras = data.getExtras();
+                    String title = isbnExtras.getString("title"), publisher = isbnExtras.getString("publisher");
+                    editTitle.setText(title);
+                    editGenre.setText(publisher);
+                }
+                break;
+            }
+            case REQUEST_IMAGE_CAPTURE:
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                imageView.setImageBitmap(imageBitmap);
+                break;
+
         }
     }
 }
