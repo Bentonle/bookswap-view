@@ -18,8 +18,8 @@ public class APIClient {
 
     private final Retrofit retrofit;
     private static APIClient mInstance;
-    private String BASE_URL = "http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/";
-    //private String token = LoginActivity.token;
+    private String BASE_URL = "http://myvmlab.senecacollege.ca:6510/bookswap-0.0.2/";
+    private String token = LoginActivity.token;
 
 
     public APIClient() {
