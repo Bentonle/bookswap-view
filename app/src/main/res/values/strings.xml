@@ -91,5 +91,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="temp"></string>
+    <string name="school_information">School Information</string>
+    <string name="school">School</string>
+    <string name="campus">Campus</string>
+    <string name="address_information">Address</string>
+    <string name="address_line1">Address Line 1</string>
+    <string name="address_line2">Address Line 2</string>
+    <string name="address_line3">Address Line 3</string>
+    <string name="country">Country</string>
+    <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="member_since">Member since 2019</string>
+    <string name="ad_title">Ad Title</string>
+    <string name="ad_price">price</string>
+    <string name="ad_image_description">Main ad image</string>
 
 </resources>
