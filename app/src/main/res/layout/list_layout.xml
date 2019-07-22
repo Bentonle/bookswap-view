@@ -7,12 +7,15 @@
 
     <ImageView
         android:id="@+id/ad_image"
-        android:layout_width="120dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/ad_image_description"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ad_title"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView

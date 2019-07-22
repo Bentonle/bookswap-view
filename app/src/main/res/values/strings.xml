@@ -106,6 +106,6 @@
     <string name="ad_title">Ad Title</string>
     <string name="ad_price">price</string>
     <string name="ad_image_description">Main ad image</string>
-    <string name="nav_message">Please sign in to trade with bookswap</string>
+    <string name="nav_message">Sign in to trade with bookswap</string>
 
 </resources>
