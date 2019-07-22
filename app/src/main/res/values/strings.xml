@@ -34,7 +34,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Logged in as: "</string>
+    <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >8 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -106,5 +106,6 @@
     <string name="ad_title">Ad Title</string>
     <string name="ad_price">price</string>
     <string name="ad_image_description">Main ad image</string>
+    <string name="nav_message">Please sign in to trade with bookswap</string>
 
 </resources>

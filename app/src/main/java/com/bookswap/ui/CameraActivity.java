@@ -177,7 +177,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             URL myurl = new URL(url);
             con = (HttpURLConnection) myurl.openConnection();
             con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "");
+            con.setRequestProperty("Authorization", "42512_8f862da499948578cb7c8c7ce3e0c12a");
             con.setRequestMethod("GET");
 
             con.connect();
@@ -188,8 +188,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                 String line;
                 content = new StringBuilder();
 
-                // Bundle results = new Bundle();
-                Intent returnIntent = new Intent();
+                Bundle results = new Bundle();
                 while ((line = in.readLine()) != null) {
 
                     if (line.contains("\"")) {
@@ -209,18 +208,22 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
 
                         content.append(stringValue + "\n");
-                        if (stringTitle == "\"publisher\"") {
-                            returnIntent.putExtra("publisher", stringValue);
-                            toastMessage("This is publisher: " + stringValue);
+                        if(stringTitle == "publisher") {
+                            results.putString("publisher", stringValue);
+                            toastMessage("This is:" + stringValue);
                         }
-                        else if(stringTitle == "\"title\"") {
-                            returnIntent.putExtra("title", stringValue);
-                        }
+                        else if(stringTitle == "\"title\"")
+                            results.putString("title", stringValue);
+
+
                     }
                 }
 
+
                 toastMessage(content.toString());
-                //setResult(1, returnIntent);
+                //Intent intentResults = new Intent();
+                //intentResults.putExtras(results);
+                //setResult(RESULT_OK, intentResults);
                 //finish();
             }
         } finally {
