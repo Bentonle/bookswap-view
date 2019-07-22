@@ -19,13 +19,17 @@ import com.bookswap.model.Role;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -100,9 +104,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         user_.put("campus",campus_);
         user_.put("address",address_);
 
+        File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part image = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user_);
+            Call<StdResponse> call = api.getUserService().signup(user_, image);
 
             call.enqueue(new Callback<StdResponse>() {
                 @Override
@@ -120,6 +129,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<StdResponse> call, Throwable t) {
+                    Log.d("TEST1",t.toString());
                     Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
 
