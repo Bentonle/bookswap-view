@@ -53,6 +53,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+
     //this function wil will load the list with the items
     class CustomAdaptor extends BaseAdapter{
 
