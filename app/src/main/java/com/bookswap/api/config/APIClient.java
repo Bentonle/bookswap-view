@@ -1,5 +1,6 @@
 package com.bookswap.api.config;
 
+import com.bookswap.api.service.AdService;
 import com.bookswap.api.service.UserService;
 import com.bookswap.ui.user.LoginActivity;
 
@@ -52,8 +53,12 @@ public class APIClient {
         }
         return mInstance;
     }
+
     public UserService getUserService() {
         return this.retrofit.create(UserService.class);
+    }
+    public AdService getAdService() {
+        return this.retrofit.create(AdService.class);
     }
 
     /*private static final String BASE_URL = "http://myvmlab.senecacollege.ca:6510/bookswap-0.0.1/";

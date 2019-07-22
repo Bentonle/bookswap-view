@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bookswap.R;
+import com.bookswap.api.config.APIClient;
+import com.bookswap.model.StdResponse;
+import com.bookswap.ui.user.CreateAccountActivity;
+
+import java.io.File;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,7 +72,8 @@ public class PostAdFragment extends Fragment {
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void  onClick(View v) {
-                dispatchTakePictureIntent();
+                //dispatchTakePictureIntent();
+                createNewAd();
             }
         });
 
@@ -81,6 +96,83 @@ public class PostAdFragment extends Fragment {
 
         return view;
     }
+
+    // ----
+
+    private void createNewAd(){
+
+        /*
+
+        all
+
+         */
+
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyX2RkIiwiZXhwIjoxNTY0NjIxODIxfQ.rtT0jB0Mt_XbOA6IjZNHXfY0eRsASaZSO-7CJJVs7mOnz_cpAEKn2sR6Y_tzrZ4VPifU6fIThvEzE5dCV2UN_Q";
+        String username = "user_dd";
+        File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");
+
+        String description = "description";
+        Double price = 33.33;
+        String title = "title";
+        String author = "author";
+        String descriptionProduct = "description";
+        String edition = "edition";
+        String isbn = "isbn";
+        String publisher = "publisher";
+
+        // --- //
+
+        HashMap<String, Object> newAd = new HashMap<>();
+        HashMap<String, Object> newProduct = new HashMap<>();
+
+        newProduct.put("title",title);
+        newProduct.put("author",author);
+        newProduct.put("description",descriptionProduct);
+        newProduct.put("edition",edition);
+        newProduct.put("isbn",isbn);
+        newProduct.put("publisher",publisher);
+
+        newAd.put("description",description);
+        newAd.put("price",String.valueOf(price));
+        newAd.put("product",newProduct);
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part image = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        try {
+            APIClient api = new APIClient().getInstance();
+            Call<HashMap<String, Object>> call = api.getAdService().createNewAd(username,token,newAd,image);
+
+            call.enqueue(new Callback<HashMap<String, Object>>() {
+                @Override
+                public void onResponse(Call<HashMap<String, Object>> call, Response<HashMap<String, Object>> response){
+                    try{
+                        int retStatus = response.code();
+                        String responseX ="";
+                        responseX = response.errorBody().string();
+                        Log.d("TEST1",responseX);
+                    }catch (Exception e){
+                        Log.e("Booking Presenter", "Exception");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<HashMap<String, Object>> call, Throwable t) {
+                    Log.d("TEST1",t.toString());
+                    //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
+                }
+
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    // ----
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
