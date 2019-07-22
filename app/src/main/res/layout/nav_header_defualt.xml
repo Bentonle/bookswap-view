@@ -16,6 +16,7 @@
         android:id="@+id/nav_header_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
         android:text="@string/welcome"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -23,6 +24,7 @@
         android:id="@+id/nav_header_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="@string/nav_message"
         android:textSize="15sp"/>
 
@@ -30,6 +32,8 @@
         android:id="@+id/nav_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+
         android:text="Sign In!" />
 
 
