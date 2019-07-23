@@ -1,6 +1,7 @@
 package com.bookswap.ui;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class PostAdFragment extends Fragment {
         editGenre = (EditText) view.findViewById(R.id.book_sujectOrGenre);
 
         //button control for adding images of product
-        final ImageButton addImageButton = view.findViewById(R.id.add_image_button);
+        final ImageButton addImageButton = view.findViewById(R.id.isbn_camera_button);
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void  onClick(View v) {
@@ -62,7 +63,7 @@ public class PostAdFragment extends Fragment {
         });
 
         //button control for the isbn camera
-        final ImageButton isbnButton = view.findViewById(R.id.isbn_camera_button);
+        final ImageButton isbnButton = view.findViewById(R.id.add_image_button);
         isbnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,11 +111,10 @@ public class PostAdFragment extends Fragment {
         */
         switch (requestCode) {
             case ISBN_DATA : {
-                editTitle.setText("HELLO");
-                if (resultCode == RESULT_OK) {
-                    Bundle isbnExtras = data.getExtras();
-                    String title = isbnExtras.getString("title"), publisher = isbnExtras.getString("publisher");
-                    editTitle.setText(title);
+                if (resultCode == 1) {
+                    editTitle.setText("HELLO");
+                    String title = data.getStringExtra("title"), publisher = data.getStringExtra("publisher");
+                    // editTitle.setText(title);
                     editGenre.setText(publisher);
                 }
                 break;
