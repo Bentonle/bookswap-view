@@ -1,17 +1,20 @@
 package com.bookswap.api.service;
+import android.security.NetworkSecurityPolicy;
+
+import java.util.List;
+import java.util.Map;
+
 import com.bookswap.model.Ad;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
 
-import java.util.List;
-import java.util.Map;
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -52,7 +55,6 @@ public interface UserService {
             @Field("username") String username,
             @Field("password") String password
     );*/
-    @Headers("Accept: application/json")
     @POST("user/signup")
     Call<StdResponse> signup(@Body User body);
 
