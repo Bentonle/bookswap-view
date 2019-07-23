@@ -19,13 +19,17 @@ import com.bookswap.model.Role;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -100,61 +104,32 @@ public class CreateAccountActivity extends AppCompatActivity {
         user_.put("campus",campus_);
         user_.put("address",address_);
 
+        File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part image = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user_);
+            Call<StdResponse> call = api.getUserService().signup(user_, image);
 
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-
-                while((line = in.readLine()) != null){
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-            }
-            // System.out.println(content.toString());
-
-            Toast.makeText(CreateAccountActivity.this, content.toString(), Toast.LENGTH_LONG).show();
-        } finally */
-
-            //user registration using api call
-            //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
-
-        //Campus campus = new Campus();
-    	//campus.setName("");
-        //List<Role> roles = new ArrayList<>();
-    	//roles.add(new Role(""));
-    	//roles.add(new Role(""));
-
-    	//List<Address> address = new ArrayList<>();
-    	//address.add(new Address("asd", "asd", "asd", "toronto", "on",
-    					//"canada","s1d4r5"));
-
-    	//User user2 = new User("ryan", "marzec", "marzecreyan@gmail.com", "appmarss1", "ryan123",
-    			//roles,campus,address);
-
-        try {
-            APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user);
-            call.enqueue(new Callback<StdResponse>() {
-                @Override
-                public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-
-                    if(!response.isSuccessful()){
-                        try{
-                            int retStatus = response.code();
-                            Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
-                            String responseX ="";
-                            responseX = response.errorBody().string();
-                            Log.d("TEST1",responseX);
-                        }catch (Exception e){
-                            Log.e("Booking Presenter", "Exception");
-                        }
+                    try{
+                        int retStatus = response.code();
+                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                        String responseX ="";
+                        responseX = response.errorBody().string();
+                        Log.d("TEST1",responseX);
+                    }catch (Exception e){
+                        Log.e("Booking Presenter", "Exception");
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<StdResponse> call, Throwable t) {
+                    Log.d("TEST1",t.toString());
                     Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
 
