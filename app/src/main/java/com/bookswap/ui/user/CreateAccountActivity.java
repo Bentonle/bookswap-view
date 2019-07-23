@@ -132,13 +132,34 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
                     try{
                         int retStatus = response.code();
+                        String retMessage = response.message();
 
                         if(retStatus == 200) {
-                            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.flMain, new ConfirmSignUpFragment());
-                            ft.commit();
+                            DisplayMetrics dm = new DisplayMetrics();
+                            getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                            int width = dm.widthPixels;
+                            int height = dm.heightPixels;
+
+                            LayoutInflater inflater = (LayoutInflater) CreateAccountActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            final View popupLayout = inflater.inflate(R.layout.fragment_confirm_sign_up, null);
+
+                            final PopupWindow popupWindow = new PopupWindow(popupLayout, (int)(width * 0.8), (int)(height * 0.3), true);
+                            popupWindow.setFocusable(true);
+                            popupWindow.showAtLocation(popupLayout, Gravity.CENTER,0,0);
+
+                            Button redirectButton = (Button)popupLayout.findViewById(R.id.confirm_signup_button);
+                            redirectButton.setOnClickListener(new Button.OnClickListener(){
+
+                                @Override
+                                public void onClick(View v) {
+                                    popupWindow.dismiss();
+                                    Intent signInIntent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                                    startActivity(signInIntent);                                }
+                            });
 
                         }
+
                         Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
                         String responseX ="";
                         responseX = response.errorBody().string();
