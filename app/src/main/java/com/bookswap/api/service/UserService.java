@@ -36,7 +36,7 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
-    @FormUrlEncoded
+    //@FormUrlEncoded
     @POST("user/login")
     Call<StdResponse> login(@Body LoginRequest body);
 
@@ -64,7 +64,9 @@ public interface UserService {
 
     @Multipart
     @POST("user/signup")
-    Call<StdResponse> signup(@Part("user") HashMap<String, Object> body, @Part MultipartBody.Part file);
+    Call<StdResponse> signup(
+            @Part("user") HashMap<String, Object> body,
+            @Part MultipartBody.Part file);
 
     /*
      * READ

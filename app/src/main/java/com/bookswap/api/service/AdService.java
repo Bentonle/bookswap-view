@@ -16,5 +16,9 @@ public interface AdService {
 
     @Multipart
     @POST("ad/create/{username}")
-    Call<HashMap<String, Object>> createNewAd(@Path("username") String username ,@Header("Authorization") String token, @Part("ad") HashMap<String, Object> body, @Part MultipartBody.Part file);
+    Call<HashMap<String, Object>> createNewAd(
+            @Path("username") String username ,
+            @Header("Authorization") String token,
+            @Part("ad") HashMap<String, Object> body,
+            @Part MultipartBody.Part file);
 }

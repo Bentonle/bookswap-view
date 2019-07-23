@@ -88,12 +88,13 @@ public class LoginActivity extends AppCompatActivity {
                         if(!response.isSuccessful()){
                                 String retError = String.valueOf(response.errorBody());
                                 Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                                Log.d("LOGIN",retError);
+                                Log.d("LOGIN1",retError);
 
                         }
                         else {
                             if(retCode == 200) {
-                                Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
+                                String display_message = "Logged in as: " + username;
+                                Toast.makeText(LoginActivity.this, display_message, Toast.LENGTH_LONG).show();
 
                                 Headers headerList = response.headers();
                                 String syr = headerList.get("Authorization");
@@ -103,6 +104,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //if successful login, get the user data
                                 getUserData(username, token);
+
+                                Intent intent = new Intent(LoginActivity.this, HomeFragment.class);
+
                             }
                         }
                     }catch (Exception e){
@@ -132,12 +136,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(!response.isSuccessful()){
                         String retError = String.valueOf(response.errorBody());
-                        Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
                         Log.d("USERDATA",retError);
 
                     }
                     else{
                         Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
+                        Log.d("USERDATA",retMessage);
                     }
                 }
 
