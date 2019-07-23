@@ -1,34 +1,52 @@
 package com.bookswap.ui.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.security.NetworkSecurityPolicy;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Toast;
-
 
 import com.bookswap.R;
 import com.bookswap.api.config.APIClient;
-import com.bookswap.api.service.UserService;
+import com.bookswap.model.Address;
+import com.bookswap.model.Campus;
+import com.bookswap.model.Role;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
+import com.bookswap.ui.user.ConfirmSignUpFragment;
+import com.bookswap.ui.HomeFragment;
+import com.bookswap.ui.MainActivity;
 
-import java.io.IOError;
+import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import okhttp3.ResponseBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateAccountActivity extends AppCompatActivity {
+    private static HttpURLConnection con;
+    Boolean signup = false;
+
+
 
     private EditText editTextUsername, editTextEmail, editTextPassword, editTextConfirm;
 
@@ -61,8 +79,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         });
+
+
+
     }
 
     private void userSignUp() throws Exception{
@@ -70,71 +92,66 @@ public class CreateAccountActivity extends AppCompatActivity {
         String username = editTextUsername.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        String confirm = editTextConfirm.getText().toString().trim();
 
-        //validate
-        /*if (username.isEmpty()) {
-            editTextUsername.setError("Username is required");
-            editTextUsername.requestFocus();
-            return;
-        }
-        if (email.isEmpty()) {
-            editTextEmail.setError("Email is required");
-            editTextEmail.requestFocus();
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Enter a valid email");
-            editTextEmail.requestFocus();
-            return;
-        }
-        if (password.isEmpty()) {
-            editTextPassword.setError("Password is required");
-            editTextPassword.requestFocus();
-            return;
-        }
-        if (password.length() < 6) {
-            editTextPassword.setError("Minimum 6 characters");
-            editTextPassword.requestFocus();
-            return;
-        }
-        if (!password.equals(confirm)) {
-            editTextConfirm.setError("Passwords must match");
-            editTextConfirm.requestFocus();
-            return;
-        }*/
-        User user = new User();
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(password);
+        HashMap<String,Object> user_ = new HashMap<>();
 
-            //user registration using api call
-            //Call<StdResponse> call = APIClient.getInstance().getUserService().signup(email,username,password);
+        HashMap<String,String> hashRoles = new HashMap<>();
+        hashRoles.put("name","USER");
+        HashMap[] roles_ = {hashRoles};
+
+        HashMap<String,String> campus_ = new HashMap<>();
+        campus_.put("name","name");
+
+        HashMap<String,String> address_ = new HashMap<>();
+        address_.put("addressLine1","addressLine1");
+        address_.put("addressLine2","addressLine2");
+        address_.put("addressLine3","addressLine3");
+        address_.put("city","city");
+        address_.put("province","province");
+        address_.put("country","country");
+        address_.put("postalCode","pose");
+
+        user_.put("email",email);
+        user_.put("username",username);
+        user_.put("password",password);
+        user_.put("roles",roles_);
+        user_.put("campus",campus_);
+        user_.put("address",address_);
+
+        File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part image = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user);
+            Call<StdResponse> call = api.getUserService().signup(user_, null);
+
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response){
-                   /* try{
-                        response.isSuccessful();
-                    } catch (Throwable e) {
-                        Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("RESPONSE", e.getMessage());
-                    }*/
-                    if (response.isSuccessful()){
-                        String retResponse = response.body().getMessage();
-                        Toast.makeText(CreateAccountActivity.this, "success", Toast.LENGTH_LONG).show();
-                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                    } else {
-                        //String retResponse = response.body().getMessage();
-                        //Toast.makeText(CreateAccountActivity.this, retResponse, Toast.LENGTH_LONG).show();
-                        Toast.makeText(CreateAccountActivity.this, "fail", Toast.LENGTH_LONG).show();
+                    try{
+                        int retStatus = response.code();
+
+                        if(retStatus == 200) {
+                            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.flMain, new ConfirmSignUpFragment());
+                            ft.commit();
+
+                        }
+                        Toast.makeText(CreateAccountActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                        String responseX ="";
+                        responseX = response.errorBody().string();
+                        Log.d("TEST1",responseX);
+
+                    }catch (Exception e){
+                        Log.e("Booking Presenter", "Exception");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<StdResponse> call, Throwable t) {
+                    Log.d("TEST1",t.toString());
                     Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
 
