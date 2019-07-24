@@ -1,8 +1,6 @@
 package com.bookswap.ui.user;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,23 +16,20 @@ import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
 import com.bookswap.ui.HomeFragment;
-import com.bookswap.userAuth;
+import com.bookswap.UserAuth;
 
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 import com.bookswap.R;
-
-import java.io.IOException;
-import java.util.List;
+import com.bookswap.ui.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String token;
+    public static String token = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +37,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //UserAuth userAuth = (UserAuth) getApplicationContext();
+        //userAuth.setAuthToken("testing");
 
         final Button loginButton = findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
@@ -93,8 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else {
                             if(retCode == 200) {
-                                String display_message = "Logged in as: " + username;
-                                Toast.makeText(LoginActivity.this, display_message, Toast.LENGTH_LONG).show();
+                                //String display_message = "Logged in as: " + username;
+                                //Toast.makeText(LoginActivity.this, display_message, Toast.LENGTH_LONG).show();
 
                                 Headers headerList = response.headers();
                                 String syr = headerList.get("Authorization");
@@ -102,10 +100,17 @@ public class LoginActivity extends AppCompatActivity {
                                 token = syr.substring(temp, syr.length());
                                 Log.i("TOKEN", token);
 
+                                UserAuth userAuth = (UserAuth) getApplicationContext();
+                                userAuth.setAuthToken(token);
+                                userAuth.setUsername(username);
+
                                 //if successful login, get the user data
                                 getUserData(username, token);
 
-                                Intent intent = new Intent(LoginActivity.this, HomeFragment.class);
+                                if(token != null){
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
 
                             }
                         }
