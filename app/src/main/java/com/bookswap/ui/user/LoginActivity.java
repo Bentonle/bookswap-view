@@ -1,8 +1,6 @@
 package com.bookswap.ui.user;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,23 +16,22 @@ import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
 import com.bookswap.ui.HomeFragment;
-import com.bookswap.userAuth;
+import com.bookswap.UserAuth;
 
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 import com.bookswap.R;
+import com.bookswap.ui.MainActivity;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String token;
+    public static String token = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //UserAuth userAuth = (UserAuth) getApplicationContext();
+        //userAuth.setAuthToken("testing");
 
         final Button loginButton = findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
@@ -71,12 +71,16 @@ public class LoginActivity extends AppCompatActivity {
 
         final String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-        final LoginRequest loginRequest = new LoginRequest(username, password);
+        //final LoginRequest loginRequest = new LoginRequest(username, password);
+
+        HashMap<String, String> loginHash = new HashMap<>();
+        loginHash.put("username",username);
+        loginHash.put("password", password);
 
         //this Call will query the database and check if the provided username and password is correct.
         // if the correct info is sent the sever will respond with 200 and an authentication key in the header
         try {
-            Call<StdResponse> call = new APIClient().getUserService().login(loginRequest);
+            Call<StdResponse> call = new APIClient().getUserService().login(loginHash);
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
@@ -86,15 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                         String retMessage = response.message();
 
                         if(!response.isSuccessful()){
-                                String retError = String.valueOf(response.errorBody());
-                                Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                                Log.d("LOGIN1",retError);
+                            String retError = String.valueOf(response.errorBody());
+                            Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
+                            Log.d("LOGIN1",retError);
 
                         }
                         else {
                             if(retCode == 200) {
-                                String display_message = "Logged in as: " + username;
-                                Toast.makeText(LoginActivity.this, display_message, Toast.LENGTH_LONG).show();
+                                //String display_message = "Logged in as: " + username;
+                                //Toast.makeText(LoginActivity.this, display_message, Toast.LENGTH_LONG).show();
 
                                 Headers headerList = response.headers();
                                 String syr = headerList.get("Authorization");
@@ -102,10 +106,17 @@ public class LoginActivity extends AppCompatActivity {
                                 token = syr.substring(temp, syr.length());
                                 Log.i("TOKEN", token);
 
+                                UserAuth userAuth = (UserAuth) getApplicationContext();
+                                userAuth.setAuthToken(token);
+                                userAuth.setUsername(username);
+
                                 //if successful login, get the user data
                                 getUserData(username, token);
 
-                                Intent intent = new Intent(LoginActivity.this, HomeFragment.class);
+                                if(token != null){
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
 
                             }
                         }
@@ -126,17 +137,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserData(String user, String token) {
         try{
-            Call<User> cal2 = new APIClient().getUserService().findUserByUsername(user);
-            cal2.enqueue(new Callback<User>(){
+            Call<HashMap<String, Object>> cal2 = new APIClient().getUserService().findUserByUsername(user, token);
+            cal2.enqueue(new Callback<HashMap<String, Object>>(){
 
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(Call<HashMap<String, Object>> call, Response<HashMap<String, Object>> response) {
                     int retCode = response.code();
                     String retMessage = response.message();
 
                     if(!response.isSuccessful()){
                         String retError = String.valueOf(response.errorBody());
-                        //Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
                         Log.d("USERDATA",retError);
 
                     }
@@ -147,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(Call<HashMap<String, Object>> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
                     Log.d("USERDATA_FAILURE", String.valueOf(t));
                 }

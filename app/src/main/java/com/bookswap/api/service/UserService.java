@@ -38,6 +38,7 @@ public interface UserService {
      * that will be serialize to a object of type StdResponse.
      */
     //@FormUrlEncoded
+
     @POST("user/login")
     Call<StdResponse> login(@Body HashMap<String,String> body);
 
@@ -65,7 +66,9 @@ public interface UserService {
 
     @Multipart
     @POST("user/signup")
-    Call<StdResponse> signup(@Part("user") HashMap<String, Object> body, @Part MultipartBody.Part file);
+    Call<StdResponse> signup(
+            @Part("user") HashMap<String, Object> body,
+            @Part MultipartBody.Part file);
 
     /*
      * READ
@@ -80,9 +83,7 @@ public interface UserService {
      */
 
     @GET("user/{username}")
-    Call<HashMap<String, Object>> findUserByUsername(
-            @Path("username") String username,
-            @Header("Authorization") String token);
+    Call<HashMap<String, Object>> findUserByUsername(@Path("username") String username,@Header("Authorization") String token);
 
     /**
      *
@@ -127,9 +128,7 @@ public interface UserService {
      */
 
     @PATCH("user/update/password/{username}")
-    Call<StdResponse> updatePassword(
-            @Path("username") String username,
-            @QueryMap Map<String, String> password);
+    Call<StdResponse> updatePassword(@Path("username") String username, @QueryMap Map<String, String> password);
 
     /**
      *
