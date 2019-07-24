@@ -83,7 +83,9 @@ public interface UserService {
      */
 
     @GET("user/{username}")
-    Call<HashMap<String, Object>> findUserByUsername(@Path("username") String username,@Header("Authorization") String token);
+    Call<HashMap<String, Object>> findUserByUsername(
+            @Path("username") String username,
+            @Header("Authorization") String token);
 
     /**
      *
@@ -128,7 +130,9 @@ public interface UserService {
      */
 
     @PATCH("user/update/password/{username}")
-    Call<StdResponse> updatePassword(@Path("username") String username, @QueryMap Map<String, String> password);
+    Call<StdResponse> updatePassword(
+            @Path("username") String username,
+            @QueryMap Map<String, String> password);
 
     /**
      *
