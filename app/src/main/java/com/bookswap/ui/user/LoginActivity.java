@@ -13,9 +13,6 @@ import android.content.Intent;
 
 import com.bookswap.api.config.APIClient;
 import com.bookswap.model.StdResponse;
-import com.bookswap.model.user.LoginRequest;
-import com.bookswap.model.user.User;
-import com.bookswap.ui.HomeFragment;
 import com.bookswap.UserAuth;
 
 import okhttp3.Headers;
@@ -126,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<StdResponse> call, Throwable t) {
-                    Log.e("LOGIN_FAILURE", t.toString());
+                    //Log.e("LOGIN_FAILURE", t.toString());
                     Toast.makeText(LoginActivity.this, "Failed to log in", Toast.LENGTH_LONG).show();
                 }
             });
@@ -146,18 +143,20 @@ public class LoginActivity extends AppCompatActivity {
                     String retMessage = response.message();
 
                     HashMap<String,Object> hashReponse = response.body();
-                    //String email = (String) hashReponse.get("email");
 
                     //Toast.makeText(LoginActivity.this, email, Toast.LENGTH_LONG).show();
                     Log.d("USER_INFO",hashReponse.get("user").toString());
-                    Log.d("USER_PHOTO",hashReponse.get("file").toString());
+                    if(hashReponse.containsKey("file")) {
+                        Log.d("USER_PHOTO", hashReponse.get("file").toString());
+                    }
+                    //Log.d("USERDATA_FAILURE1", response.errorBody().toString());
 
                 }
 
                 @Override
                 public void onFailure(Call<HashMap<String, Object>> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
-                    Log.d("USERDATA_FAILURE", String.valueOf(t));
+                    //Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
+                    Log.d("USERDATA_FAILURE2", String.valueOf(t));
                 }
             });
         }catch (Exception e){
