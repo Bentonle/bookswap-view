@@ -87,12 +87,15 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("LOGIN",responseX);
                             }catch (IOException e){
                                 Log.e("LOGIN", "failed to login");
+                                Toast.makeText(LoginActivity.this, "test", Toast.LENGTH_LONG).show();
                             }
 
                         // if the response is successful we will grab the authentication and save it to a global token
                         // to be used for other requests that require a user to be logged in.
                         //this token will be used in APICLient.java in the client interceptor
                         }else {
+                            String login_message = "logged in as: " + username;
+                            Toast.makeText(LoginActivity.this, login_message, Toast.LENGTH_LONG).show();
                             Headers headerList = response.headers();
                             String syr = headerList.get("Authorization");
                             int temp = syr.indexOf(" ");
