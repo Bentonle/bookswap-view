@@ -26,7 +26,7 @@ import com.bookswap.R;
  */
 public class ProfileFragment extends Fragment {
 
-    int [] IMAGES = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    int [] IMAGES = {R.drawable.ic_text_book, R.drawable.ic_text_book};
     String[] TITLE = {"temp title 1", "Temp Title 2"};
     String [] PRICE = {"$15", "$25"};
 
@@ -47,15 +47,15 @@ public class ProfileFragment extends Fragment {
         //this list view will load a lost of all of the users current open trades
         ListView listView = (ListView) view.findViewById(R.id.profile_list_view);
 
-        CustomAdaptor customAdaptor = new CustomAdaptor();
-        listView.setAdapter(customAdaptor);
+        ProfileAdaptor profileAdaptor = new ProfileAdaptor();
+        listView.setAdapter(profileAdaptor);
 
         return view;
     }
 
 
     //this function wil will load the list with the items
-    class CustomAdaptor extends BaseAdapter{
+    class ProfileAdaptor extends BaseAdapter{
 
         @Override
         public int getCount() {

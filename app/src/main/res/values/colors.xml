@@ -5,4 +5,6 @@
     <color name="colorAccent">#66CDDA</color>
     <color name="colorAccentDark">#556EE4</color>
     <color name="colorBackground">#E9E9EA</color>
+    <color name="colorTransparentBack">#75FFFFFF</color>
+
 </resources>
