@@ -20,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.PopupWindow;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.bookswap.R;
+import com.bookswap.UserAuth;
 import com.bookswap.ui.profile.EditProfileFragment;
 import com.bookswap.ui.profile.ProfileFragment;
 
@@ -36,6 +38,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        UserAuth userAuth = (UserAuth) getApplicationContext();
+
+        if(userAuth.getAuthToken() != null){
+            String display_message = "Logged in as: " + userAuth.getUsername();
+            Toast.makeText(MainActivity.this, display_message, Toast.LENGTH_LONG).show();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
