@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,8 +46,9 @@ public class PostAdFragment extends Fragment {
     public static final int ISBN_DATA = 100;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView imageView;
+    private Button btnPost;
 
-    private EditText editTitle, editEdition, editRelease, editPrice, editGenre;
+    private EditText editTitle, editEdition, editRelease, editPrice, editGenre, editDescription;
 
     public PostAdFragment() {
         // Required empty public constructor
@@ -65,14 +67,14 @@ public class PostAdFragment extends Fragment {
         editRelease = (EditText) view.findViewById(R.id.book_release);
         editPrice = (EditText) view.findViewById(R.id.book_price);
         editGenre = (EditText) view.findViewById(R.id.book_sujectOrGenre);
+        editDescription = (EditText) view.findViewById(R.id.book_description);
 
         //button control for adding images of product
         final ImageButton addImageButton = view.findViewById(R.id.add_image_button);
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void  onClick(View v) {
-                //dispatchTakePictureIntent();
-                createNewAd();
+                dispatchTakePictureIntent();
             }
         });
 
@@ -83,6 +85,20 @@ public class PostAdFragment extends Fragment {
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(getActivity(), CameraActivity.class);
                 startActivityForResult(cameraIntent, ISBN_DATA);
+            }
+        });
+
+        btnPost = (Button) view.findViewById(R.id.post_ad_button);
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewAd(
+                        editTitle.getText().toString(),
+                        editEdition.getText().toString(),
+                        editRelease.getText().toString(),
+                        editPrice.getText().toString(),
+                        editGenre.getText().toString(),
+                        editDescription.getText().toString());
             }
         });
 
@@ -98,18 +114,14 @@ public class PostAdFragment extends Fragment {
 
     // ----
 
-    private void createNewAd(){
+    private void createNewAd(String title_, String edition_, String release_, String price_, String genre_, String description_){
 
         String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyX2RkIiwiZXhwIjoxNTY0NjIxODIxfQ.rtT0jB0Mt_XbOA6IjZNHXfY0eRsASaZSO-7CJJVs7mOnz_cpAEKn2sR6Y_tzrZ4VPifU6fIThvEzE5dCV2UN_Q";
         String username = "user_dd";
         File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");
 
         String description = "description";
-        Double price = 33.33;
-        String title = "title";
         String author = "author";
-        String descriptionProduct = "description";
-        String edition = "edition";
         String isbn = "isbn";
         String publisher = "publisher";
 
@@ -118,15 +130,15 @@ public class PostAdFragment extends Fragment {
         HashMap<String, Object> newAd = new HashMap<>();
         HashMap<String, Object> newProduct = new HashMap<>();
 
-        newProduct.put("title",title);
+        newProduct.put("title",title_);
         newProduct.put("author",author);
-        newProduct.put("description",descriptionProduct);
-        newProduct.put("edition",edition);
+        newProduct.put("description", description_);
+        newProduct.put("edition",edition_);
         newProduct.put("isbn",isbn);
         newProduct.put("publisher",publisher);
 
         newAd.put("description",description);
-        newAd.put("price",String.valueOf(price));
+        newAd.put("price",String.valueOf(price_));
         newAd.put("product",newProduct);
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);

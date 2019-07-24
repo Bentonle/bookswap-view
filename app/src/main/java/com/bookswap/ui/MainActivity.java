@@ -1,10 +1,13 @@
 package com.bookswap.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.security.NetworkSecurityPolicy;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, display_message, Toast.LENGTH_LONG).show();
         }
 
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,7 +67,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_home);
 
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ }
+                return;
+            }
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
