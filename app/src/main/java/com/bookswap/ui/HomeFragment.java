@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bookswap.R;
 import com.bookswap.ui.profile.ProfileFragment;
+import com.bookswap.ui.user.ViewAdFragment;
 
 
 /**
@@ -42,6 +44,15 @@ public class HomeFragment extends Fragment {
 
         HomeAdaptor homeAdaptor = new HomeAdaptor();
         listView.setAdapter(homeAdaptor);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new ViewAdFragment());
+                ft.commit();
+            }
+        });
 
         return view;
     }
