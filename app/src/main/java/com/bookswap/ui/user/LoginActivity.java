@@ -145,16 +145,13 @@ public class LoginActivity extends AppCompatActivity {
                     int retCode = response.code();
                     String retMessage = response.message();
 
-                    if(!response.isSuccessful()){
-                        String retError = String.valueOf(response.errorBody());
-                        Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                        Log.d("USERDATA",retError);
+                    HashMap<String,Object> hashReponse = response.body();
+                    //String email = (String) hashReponse.get("email");
 
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
-                        Log.d("USERDATA",retMessage);
-                    }
+                    //Toast.makeText(LoginActivity.this, email, Toast.LENGTH_LONG).show();
+                    Log.d("USER_INFO",hashReponse.get("user").toString());
+                    Log.d("USER_PHOTO",hashReponse.get("file").toString());
+
                 }
 
                 @Override
