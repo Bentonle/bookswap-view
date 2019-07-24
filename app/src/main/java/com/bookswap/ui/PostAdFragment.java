@@ -1,6 +1,7 @@
 package com.bookswap.ui;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,6 +49,7 @@ public class PostAdFragment extends Fragment {
     private ImageView imageView;
 
     private EditText editTitle, editEdition, editRelease, editPrice, editGenre;
+    private Button btnPost;
 
     public PostAdFragment() {
         // Required empty public constructor
@@ -71,8 +74,7 @@ public class PostAdFragment extends Fragment {
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void  onClick(View v) {
-                //dispatchTakePictureIntent();
-                createNewAd();
+                dispatchTakePictureIntent();
             }
         });
 
@@ -86,6 +88,13 @@ public class PostAdFragment extends Fragment {
             }
         });
 
+        btnPost = (Button) view.findViewById(R.id.post_ad_button);
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewAd();
+            }
+        });
              /*Resources r = GetResources();
         Drawable[] layers = new Drawable[2];
         layers[0] = r.getDrawable(R.mipmap.ic_launcher_round);
@@ -188,19 +197,12 @@ public class PostAdFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //editEdition.setText(Integer.toString(ISBN_DATA));
-        //editPrice.setText(Integer.toString(requestCode));
-
-        /*if(requestCode == ISBN_DATA)
-            editPrice.setText("WORKS");
-        */
         switch (requestCode) {
             case ISBN_DATA : {
-                editTitle.setText("HELLO");
-                if (resultCode == RESULT_OK) {
-                    Bundle isbnExtras = data.getExtras();
-                    String title = isbnExtras.getString("title"), publisher = isbnExtras.getString("publisher");
-                    editTitle.setText(title);
+                if (resultCode == 1) {
+                    editTitle.setText("HELLO");
+                    String title = data.getStringExtra("title"), publisher = data.getStringExtra("publisher");
+                    // editTitle.setText(title);
                     editGenre.setText(publisher);
                 }
                 break;
