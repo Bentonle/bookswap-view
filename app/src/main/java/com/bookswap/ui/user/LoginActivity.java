@@ -43,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //variables to hold username and password
+        final EditText usernameEditText = findViewById(R.id.username);
+        final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
@@ -54,103 +57,109 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    userSignIn();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                //Toast.makeText(LoginActivity.this, "Pressed", Toast.LENGTH_LONG ).show();
+
+                final String username = usernameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+                final LoginRequest loginRequest = new LoginRequest(username, password);
+
+                //add validations?
+
+                //execute login process
+
+                //test for correct login credentials
+                //
+                //this Call will query the database and check if the provided username and password is correct.
+                // if the correct info is sent the sever will respond with 200 and an authentication key in the header
+                //
+                Call<StdResponse> call = new APIClient().getUserService().login(loginRequest);
+                call.enqueue(new Callback<StdResponse>() {
+                    @Override
+                    public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
+
+                        //if response fails catch error and provide a simple failed login message
+                        if(!response.isSuccessful()){
+                            try{
+                                int retStatus = response.code();
+                                Toast.makeText(LoginActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                                String responseX ="";
+                                responseX = response.errorBody().string();
+                                Log.d("LOGIN",responseX);
+                            }catch (IOException e){
+                                Log.e("LOGIN", "failed to login");
+                                Toast.makeText(LoginActivity.this, "test", Toast.LENGTH_LONG).show();
+                            }
+
+                        // if the response is successful we will grab the authentication and save it to a global token
+                        // to be used for other requests that require a user to be logged in.
+                        //this token will be used in APICLient.java in the client interceptor
+                        }else {
+                            String login_message = "logged in as: " + username;
+                            Toast.makeText(LoginActivity.this, "logged in as buttchecks", Toast.LENGTH_LONG).show();
+                            Headers headerList = response.headers();
+                            String syr = headerList.get("Authorization");
+                            int temp = syr.indexOf(" ");
+                            token = syr.substring(temp, syr.length());
+                            Log.d("HEADERS", token);
+
+                            //once response code 200 in received we will query the database for the user information
+                            // this call will include the username and the authentication token recieved from the validate user call above
+                            Call<User> call2 = new APIClient().getUserService().findUserByUsername(username);
+                            call2.enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
+
+                                    //catch error if response fails
+                                    if(!response.isSuccessful()){
+                                        try{
+                                            int retStatus = response.code();
+                                            Toast.makeText(LoginActivity.this, Integer.toString(retStatus), Toast.LENGTH_LONG).show();
+                                            String responseX ="";
+                                            responseX = response.errorBody().string();
+                                            Log.d("LOGIN_DATA",responseX);
+                                        }catch (IOException error){
+                                            Log.e("LOGIN_DATA", String.valueOf(error));
+                                        }
+                                    }else{
+                                        //if the call is successfull
+                                        //Toast.makeText(LoginActivity.this, "potato", Toast.LENGTH_LONG).show();
+                                        //int retStatus = response.code();
+                                        String ret = response.message();
+                                        Toast.makeText(LoginActivity.this, ret, Toast.LENGTH_LONG).show();
+
+                                        //redirect to `homepage on successful login
+                                        /*android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.flMain, new HomeFragment());
+                                        ft.commit();*/
+
+
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+                                    Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
+                                    Log.e("OnFailure", String.valueOf(t));
+
+                                }
+                            });
+                            String msg = response.body().getMessage();
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
+
+                            Log.e ("LOGIN", msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<StdResponse> call, Throwable t) {
+                        toastMessage("Failed login request");
+                    }
+                });
             }
         });
     }
 
-    private void userSignIn() throws Exception{
-
-        //variables to hold username and password
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
-
-        final String username = usernameEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-        final LoginRequest loginRequest = new LoginRequest(username, password);
-
-        //this Call will query the database and check if the provided username and password is correct.
-        // if the correct info is sent the sever will respond with 200 and an authentication key in the header
-        try {
-            Call<StdResponse> call = new APIClient().getUserService().login(loginRequest);
-            call.enqueue(new Callback<StdResponse>() {
-                @Override
-                public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
-                    try{
-                        //if response fails catch error and provide a simple failed login message
-                        int retCode = response.code();
-                        String retMessage = response.message();
-
-                        if(!response.isSuccessful()){
-                                String retError = String.valueOf(response.errorBody());
-                                Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                                Log.d("LOGIN",retError);
-
-                        }
-                        else {
-                            if(retCode == 200) {
-                                Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
-
-                                Headers headerList = response.headers();
-                                String syr = headerList.get("Authorization");
-                                int temp = syr.indexOf(" ");
-                                token = syr.substring(temp, syr.length());
-                                Log.i("TOKEN", token);
-
-                                //if successful login, get the user data
-                                getUserData(username, token);
-                            }
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-                @Override
-                public void onFailure(Call<StdResponse> call, Throwable t) {
-                    Log.e("LOGIN_FAILURE", t.toString());
-                    Toast.makeText(LoginActivity.this, "Failed to log in", Toast.LENGTH_LONG).show();
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void getUserData(String user, String token) {
-        try{
-            Call<User> cal2 = new APIClient().getUserService().findUserByUsername(user);
-            cal2.enqueue(new Callback<User>(){
-
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    int retCode = response.code();
-                    String retMessage = response.message();
-
-                    if(!response.isSuccessful()){
-                        String retError = String.valueOf(response.errorBody());
-                        Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                        Log.d("USERDATA",retError);
-
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
-                    Log.d("USERDATA_FAILURE", String.valueOf(t));
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     //handle clickable text
     public void textClickables(View view) {
@@ -167,4 +176,5 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+    private void toastMessage(String message){ Toast.makeText(this, message, Toast.LENGTH_LONG).show(); }
 }
