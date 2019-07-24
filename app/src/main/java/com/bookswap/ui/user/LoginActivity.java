@@ -27,6 +27,8 @@ import retrofit2.Response;
 import com.bookswap.R;
 import com.bookswap.ui.MainActivity;
 
+import java.util.HashMap;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static String token = null;
@@ -69,12 +71,16 @@ public class LoginActivity extends AppCompatActivity {
 
         final String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-        final LoginRequest loginRequest = new LoginRequest(username, password);
+        //final LoginRequest loginRequest = new LoginRequest(username, password);
+
+        HashMap<String, String> loginHash = new HashMap<>();
+        loginHash.put("username",username);
+        loginHash.put("password", password);
 
         //this Call will query the database and check if the provided username and password is correct.
         // if the correct info is sent the sever will respond with 200 and an authentication key in the header
         try {
-            Call<StdResponse> call = new APIClient().getUserService().login(loginRequest);
+            Call<StdResponse> call = new APIClient().getUserService().login(loginHash);
             call.enqueue(new Callback<StdResponse>() {
                 @Override
                 public void onResponse(Call<StdResponse> call, Response<StdResponse> response) {
@@ -84,9 +90,9 @@ public class LoginActivity extends AppCompatActivity {
                         String retMessage = response.message();
 
                         if(!response.isSuccessful()){
-                                String retError = String.valueOf(response.errorBody());
-                                Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                                Log.d("LOGIN1",retError);
+                            String retError = String.valueOf(response.errorBody());
+                            Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
+                            Log.d("LOGIN1",retError);
 
                         }
                         else {
@@ -131,28 +137,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserData(String user, String token) {
         try{
-            Call<User> cal2 = new APIClient().getUserService().findUserByUsername(user);
-            cal2.enqueue(new Callback<User>(){
+            Call<HashMap<String, Object>> cal2 = new APIClient().getUserService().findUserByUsername(user, token);
+            cal2.enqueue(new Callback<HashMap<String, Object>>(){
 
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(Call<HashMap<String, Object>> call, Response<HashMap<String, Object>> response) {
                     int retCode = response.code();
                     String retMessage = response.message();
 
-                    if(!response.isSuccessful()){
-                        String retError = String.valueOf(response.errorBody());
-                        //Toast.makeText(LoginActivity.this, retError, Toast.LENGTH_LONG).show();
-                        Log.d("USERDATA",retError);
+                    HashMap<String,Object> hashReponse = response.body();
+                    //String email = (String) hashReponse.get("email");
 
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, retMessage, Toast.LENGTH_LONG).show();
-                        Log.d("USERDATA",retMessage);
-                    }
+                    //Toast.makeText(LoginActivity.this, email, Toast.LENGTH_LONG).show();
+                    Log.d("USER_INFO",hashReponse.get("user").toString());
+                    Log.d("USER_PHOTO",hashReponse.get("file").toString());
+
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(Call<HashMap<String, Object>> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, "Failed to load user data", Toast.LENGTH_LONG ).show();
                     Log.d("USERDATA_FAILURE", String.valueOf(t));
                 }

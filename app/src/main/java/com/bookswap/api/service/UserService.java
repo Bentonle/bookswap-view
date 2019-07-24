@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
@@ -36,8 +37,9 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
+
     @POST("user/login")
-    Call<StdResponse> login(@Body LoginRequest body);
+    Call<StdResponse> login(@Body HashMap<String,String> body);
 
     /**
      *
@@ -80,7 +82,9 @@ public interface UserService {
      */
 
     @GET("user/{username}")
-    Call<User> findUserByUsername(@Path("username") String username);
+    Call<HashMap<String, Object>> findUserByUsername(
+            @Path("username") String username,
+            @Header("Authorization") String token);
 
     /**
      *
@@ -125,7 +129,9 @@ public interface UserService {
      */
 
     @PATCH("user/update/password/{username}")
-    Call<StdResponse> updatePassword(@Path("username") String username, @QueryMap Map<String, String> password);
+    Call<StdResponse> updatePassword(
+            @Path("username") String username,
+            @QueryMap Map<String, String> password);
 
     /**
      *
