@@ -37,9 +37,9 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
-    @FormUrlEncoded
+    //@FormUrlEncoded
     @POST("user/login")
-    Call<StdResponse> login(@Body LoginRequest body);
+    Call<StdResponse> login(@Body HashMap<String,String> body);
 
     /**
      *
@@ -79,11 +79,8 @@ public interface UserService {
      * @return User object
      */
 
-
     @GET("user/{username}")
-    @Headers({"Accept: application/json"})
-    Call<HashMap<String,Object>> findUserByUsername(@Header("Authorization") String token,
-                                                    @Path("username") String username);
+    Call<HashMap<String, Object>> findUserByUsername(@Path("username") String username,@Header("Authorization") String token);
 
     /**
      *
