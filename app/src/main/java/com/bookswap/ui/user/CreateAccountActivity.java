@@ -23,7 +23,6 @@ import com.bookswap.model.Campus;
 import com.bookswap.model.Role;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.User;
-import com.bookswap.ui.user.ConfirmSignUpFragment;
 import com.bookswap.ui.HomeFragment;
 import com.bookswap.ui.MainActivity;
 
@@ -166,15 +165,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Log.d("TEST1",responseX);
 
                     }catch (Exception e){
-                        Log.e("Booking Presenter", "Exception");
+                        Log.e("SIGNUPFAIL", String.valueOf(e));
                     }
                 }
 
                 @Override
                 public void onFailure(Call<StdResponse> call, Throwable t) {
-                    Log.d("TEST1",t.toString());
-                    Toast.makeText(CreateAccountActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                    //Toast.makeText(CreateAccountActivity.this, "invoking onFailure", Toast.LENGTH_LONG).show();
+                    Log.e("TEST1",t.toString());
+                    Toast.makeText(CreateAccountActivity.this, "Failed to sign up", Toast.LENGTH_LONG).show();
 
                 }
 

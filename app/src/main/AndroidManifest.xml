@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".userAuth"
+        android:name="com.bookswap.UserAuth"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.CameraActivity" />
+        <activity
+            android:name=".ui.CameraActivity" />
         <activity
             android:name=".ui.user.LoginActivity"
             android:label="@string/title_activity_login"
