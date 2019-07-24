@@ -100,12 +100,6 @@ public class PostAdFragment extends Fragment {
 
     private void createNewAd(){
 
-        /*
-
-        all
-
-         */
-
         String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyX2RkIiwiZXhwIjoxNTY0NjIxODIxfQ.rtT0jB0Mt_XbOA6IjZNHXfY0eRsASaZSO-7CJJVs7mOnz_cpAEKn2sR6Y_tzrZ4VPifU6fIThvEzE5dCV2UN_Q";
         String username = "user_dd";
         File file = new File("storage/emulated/0/Download/xyPtn4m_d.jpg");

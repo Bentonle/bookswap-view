@@ -111,7 +111,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         try {
             APIClient api = new APIClient().getInstance();
-            Call<StdResponse> call = api.getUserService().signup(user_, image);
+            Call<StdResponse> call = api.getUserService().signup(user_, null);
 
             call.enqueue(new Callback<StdResponse>() {
                 @Override

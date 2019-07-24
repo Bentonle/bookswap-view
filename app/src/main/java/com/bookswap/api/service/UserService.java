@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
@@ -78,8 +79,11 @@ public interface UserService {
      * @return User object
      */
 
+
     @GET("user/{username}")
-    Call<User> findUserByUsername(@Path("username") String username);
+    @Headers({"Accept: application/json"})
+    Call<HashMap<String,Object>> findUserByUsername(@Header("Authorization") String token,
+                                                    @Path("username") String username);
 
     /**
      *
