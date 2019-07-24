@@ -37,7 +37,6 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
-    //@FormUrlEncoded
 
     @POST("user/login")
     Call<StdResponse> login(@Body HashMap<String,String> body);
