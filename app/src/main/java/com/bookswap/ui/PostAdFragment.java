@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ public class PostAdFragment extends Fragment {
     private ImageView imageView;
 
     private EditText editTitle, editEdition, editRelease, editPrice, editGenre;
+    private Button btnPost;
 
     public PostAdFragment() {
         // Required empty public constructor
@@ -68,17 +70,16 @@ public class PostAdFragment extends Fragment {
         editGenre = (EditText) view.findViewById(R.id.book_sujectOrGenre);
 
         //button control for adding images of product
-        final ImageButton addImageButton = view.findViewById(R.id.isbn_camera_button);
+        final ImageButton addImageButton = view.findViewById(R.id.add_image_button);
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void  onClick(View v) {
-                //dispatchTakePictureIntent();
-                createNewAd();
+                dispatchTakePictureIntent();
             }
         });
 
         //button control for the isbn camera
-        final ImageButton isbnButton = view.findViewById(R.id.add_image_button);
+        final ImageButton isbnButton = view.findViewById(R.id.isbn_camera_button);
         isbnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +88,13 @@ public class PostAdFragment extends Fragment {
             }
         });
 
+        btnPost = (Button) view.findViewById(R.id.post_ad_button);
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewAd();
+            }
+        });
              /*Resources r = GetResources();
         Drawable[] layers = new Drawable[2];
         layers[0] = r.getDrawable(R.mipmap.ic_launcher_round);
@@ -189,12 +197,6 @@ public class PostAdFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //editEdition.setText(Integer.toString(ISBN_DATA));
-        //editPrice.setText(Integer.toString(requestCode));
-
-        /*if(requestCode == ISBN_DATA)
-            editPrice.setText("WORKS");
-        */
         switch (requestCode) {
             case ISBN_DATA : {
                 if (resultCode == 1) {

@@ -1,24 +1,22 @@
 package com.bookswap.api.service;
+import android.security.NetworkSecurityPolicy;
+
+import java.util.List;
+import java.util.Map;
+
 import com.bookswap.model.Ad;
 import com.bookswap.model.StdResponse;
 import com.bookswap.model.user.LoginRequest;
 import com.bookswap.model.user.User;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -37,10 +35,9 @@ public interface UserService {
      * @return standard json message with information about the request(status code, error message, etc)
      * that will be serialize to a object of type StdResponse.
      */
-    //@FormUrlEncoded
-
+    @FormUrlEncoded
     @POST("user/login")
-    Call<StdResponse> login(@Body HashMap<String,String> body);
+    Call<StdResponse> login(@Body LoginRequest body);
 
     /**
      *
@@ -58,17 +55,8 @@ public interface UserService {
             @Field("username") String username,
             @Field("password") String password
     );*/
-    //@Headers("Accept: application/json")
-
-    //@Headers("Accept: application/json")
-    //@POST("user/signup")
-    //Call<StdResponse> signup(@Body HashMap<String, Object> body);
-
-    @Multipart
     @POST("user/signup")
-    Call<StdResponse> signup(
-            @Part("user") HashMap<String, Object> body,
-            @Part MultipartBody.Part file);
+    Call<StdResponse> signup(@Body User body);
 
     /*
      * READ
@@ -83,7 +71,7 @@ public interface UserService {
      */
 
     @GET("user/{username}")
-    Call<HashMap<String, Object>> findUserByUsername(@Path("username") String username,@Header("Authorization") String token);
+    Call<User> findUserByUsername(@Path("username") String username);
 
     /**
      *
